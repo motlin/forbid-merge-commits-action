@@ -1,0 +1,42 @@
+name: 'Forbid Merge Commits'
+description: 'A composite action to forbid merge commits in pull requests.'
+branding:
+  icon: 'git-merge'
+  color: 'purple'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Check for merge commits
+      run: |
+        set -Eeuo pipefail
+
+        MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
+        if [ -n "$MERGE_COMMITS" ]; then
+
+          echo '::error title=Found merge commits::Found merge commits. Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance.'
+
+          echo -e '## Found merge commits.\n\nRefer to [handling failure messages](https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages) for guidance.\n' >> $GITHUB_STEP_SUMMARY
+
+          for COMMIT_HASH in $MERGE_COMMITS; do
+            echo "::warning::Merge commit: $COMMIT_HASH"
+            echo "::group::git show $COMMIT_HASH"
+            git show $COMMIT_HASH
+            echo '::endgroup::'
+
+            echo ''                                       >> $GITHUB_STEP_SUMMARY
+            echo '```console'                             >> $GITHUB_STEP_SUMMARY
+            git show $COMMIT_HASH                         >> $GITHUB_STEP_SUMMARY
+            echo '```'                                    >> $GITHUB_STEP_SUMMARY
+          done
+
+          exit 1
+        else
+          echo 'Success: No merge commits found'
+        fi
+      shell: bash
