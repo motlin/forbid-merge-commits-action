@@ -7,7 +7,21 @@ This action is designed to enforce a workflow that avoids merge commits within p
 For more guidance on handling merge commits and this action's failure messages, see the section below.
 
 ## Handling Failure Messages
-If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. This is an indication that the pull request contains merge commits that are not allowed. To resolve this, you can either rebase your branch onto the base branch or consult the section above on when it's safe to ignore or remove this action. For further assistance, refer to [this explanation](#when-to-ignore-or-remove-this-action).
+If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. This is an indication that the pull request contains merge commits that are not allowed. To resolve this, you can either rebase your branch onto the base branch or consult the section above on when it's safe to ignore or remove this action.
+
+To rebase your branch onto the main branch, use the following command:
+```
+git pull upstream main --rebase
+```
+This command rebases the current branch onto the main branch. It's important to ensure that your local branch is up to date with the main branch before pushing changes.
+
+After rebasing, you may need to force push your changes. To do this safely, use the command:
+```
+git push origin HEAD --force-with-lease
+```
+This command ensures that you do not overwrite any work on the remote repository that you do not have locally.
+
+Note: The remote name (`origin`) and the upstream branch name (`main`) may vary depending on your repository's configuration. Be sure to replace these with the actual names used in your repository.
 
 ## GitHub Workflow
 A GitHub workflow has been added to run the composite action against the repository itself. This workflow is defined in `.github/workflows/run-action.yml` and its purpose is to ensure that the repository adheres to its own rules against merge commits.
