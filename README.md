@@ -2,26 +2,14 @@
 A GitHub Composite Action to forbid merge commits inside pull requests.
 
 ## When to Ignore or Remove This Action
-This action is designed to enforce a workflow that avoids merge commits within pull requests. However, there may be exceptional cases where merge commits are necessary or acceptable. For instance, if a merge commit is used to resolve complex conflicts that cannot be addressed through a rebase, it might be permissible to ignore this action's failure. Always consult with your project's lead or repository administrator before deciding to ignore or bypass this action.
+This action is designed to enforce a workflow that avoids merge commits within pull requests. However, there are scenarios where merge commits are necessary or acceptable. One such scenario is when maintaining a library with stable branches. In the context of maintaining libraries with stable branches, it's acceptable to merge fixes from one branch to another. This is particularly relevant when some branches are designated for writing fixes, while others are targeted for merging these fixes. In such cases, enforcing no merges into branches designated for writing fixes can be a sensible approach.
+
+For instance, if a merge commit is used to resolve complex conflicts that cannot be addressed through a rebase, it might be permissible to ignore this action's failure. Always consult with your project's lead or repository administrator before deciding to ignore or bypass this action.
 
 For more guidance on handling merge commits and this action's failure messages, see the section below.
 
 ## Handling Failure Messages
-If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. This is an indication that the pull request contains merge commits that are not allowed. To resolve this, you can either rebase your branch onto the base branch or consult the section above on when it's safe to ignore or remove this action.
-
-To rebase your branch onto the main branch, use the following command:
-```
-git pull upstream main --rebase
-```
-This command rebases the current branch onto the main branch. It's important to ensure that your local branch is up to date with the main branch before pushing changes.
-
-After rebasing, you may need to force push your changes. To do this safely, use the command:
-```
-git push origin HEAD --force-with-lease
-```
-This command ensures that you do not overwrite any work on the remote repository that you do not have locally.
-
-Note: The remote name (`origin`) and the upstream branch name (`main`) may vary depending on your repository's configuration. Be sure to replace these with the actual names used in your repository.
+If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. This is an indication that the pull request contains merge commits that are not allowed. To resolve this, you can either rebase your branch onto the base branch or consult the section above on when it's safe to ignore or remove this action. For further assistance, refer to [this explanation](#when-to-ignore-or-remove-this-action).
 
 ## GitHub Workflow
 A GitHub workflow has been added to run the composite action against the repository itself. This workflow is defined in `.github/workflows/run-action.yml` and its purpose is to ensure that the repository adheres to its own rules against merge commits.
