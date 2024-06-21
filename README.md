@@ -25,7 +25,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run Forbid Merge Commits Action
-        uses: <your-username>/forbid-merge-commits-action@main
+        uses: motlin/forbid-merge-commits-action@main
 ```
 
 Triggering this action exclusively on `pull_request` events ensures that your repository's pull requests are checked for merge commits before they can be merged. This helps maintain a clean and linear history, which is beneficial for navigating the project's history and understanding the changes made over time.
