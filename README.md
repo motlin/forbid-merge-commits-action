@@ -8,3 +8,6 @@ For more guidance on handling merge commits and this action's failure messages, 
 
 ## Handling Failure Messages
 If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. This is an indication that the pull request contains merge commits that are not allowed. To resolve this, you can either rebase your branch onto the base branch or consult the section above on when it's safe to ignore or remove this action. For further assistance, refer to [this explanation](#when-to-ignore-or-remove-this-action).
+
+## GitHub Workflow
+A GitHub workflow has been added to run the composite action against the repository itself. This workflow is defined in `.github/workflows/run-action.yml` and its purpose is to ensure that the repository adheres to its own rules against merge commits.
