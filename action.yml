@@ -12,11 +12,9 @@ runs:
       run: |
         set -Eexuo pipefail
 
-        git fetch origin ${{github.base_ref}}:${{github.base_ref}} ${{github.head_ref}}:${{github.head_ref}}
-
-        if [ -n "$(git log --merges ${{github.base_ref}}..${{github.head_ref}} --)" ]; then
+        if [ -n "$(git log --merges origin/${{github.base_ref}}..${{github.sha}}^2 --)" ]; then
           echo "Failure: Found merge commits. Please refer to the README.md for guidance."
-          git log --merges ${{github.base_ref}}..${{github.head_ref}} --
+          git log --merges origin/${{github.base_ref}}..${{github.sha}}^2 --
           exit 1
         else
           echo "Success: No merge commits found"
