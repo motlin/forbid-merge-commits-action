@@ -11,3 +11,21 @@ If this action fails due to the presence of merge commits, it will print out the
 
 ## GitHub Workflow
 A GitHub workflow has been added to run the composite action against the repository itself. This workflow is defined in `.github/workflows/run-action.yml` and its purpose is to ensure that the repository adheres to its own rules against merge commits.
+
+## How to Add This Action to Your Repository
+To add this action to your repository, you need to create a new workflow file in the `.github/workflows/` directory of your repository. Here is a simple example of how to set up the workflow:
+
+```yaml
+name: Enforce No Merge Commits
+on: pull_request
+jobs:
+  forbid-merge-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run Forbid Merge Commits Action
+        uses: <your-username>/forbid-merge-commits-action@main
+```
+
+Triggering this action exclusively on `pull_request` events ensures that your repository's pull requests are checked for merge commits before they can be merged. This helps maintain a clean and linear history, which is beneficial for navigating the project's history and understanding the changes made over time.
