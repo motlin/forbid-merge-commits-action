@@ -15,7 +15,7 @@ runs:
         git fetch origin ${{github.base_ref}}:${{github.base_ref}} ${{github.head_ref}}:${{github.head_ref}}
 
         if [ -n "$(git log --merges ${{github.base_ref}}..${{github.head_ref}} --)" ]; then
-          echo "Failure: Found merge commits. Please refer to the README.md for guidance."
+          echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action/blob/main/README.md for guidance."
           git log --merges ${{github.base_ref}}..${{github.head_ref}} --
           exit 1
         else
