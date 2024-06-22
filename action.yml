@@ -16,7 +16,10 @@ runs:
         if [ -n "$MERGE_COMMITS" ]; then
           echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
           for COMMIT_HASH in $MERGE_COMMITS; do
+            echo "::group::Merge commit $COMMIT_HASH"
             echo "::error::Merge commit found: $COMMIT_HASH"
+            git show $COMMIT_HASH
+            echo "::endgroup::"
           done
           exit 1
         else
