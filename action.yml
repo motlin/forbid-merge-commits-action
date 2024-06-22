@@ -13,7 +13,7 @@ runs:
         set -Eeuo pipefail
 
         if [ -n "$(git log --merges origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)" ]; then
-          echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action/blob/main/README.md for guidance."
+          echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
           git log --merges origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --
           exit 1
         else
