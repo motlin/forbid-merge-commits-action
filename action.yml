@@ -14,15 +14,18 @@ runs:
 
         MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
         if [ -n "$MERGE_COMMITS" ]; then
-          echo "::error title={Found merge commits}::Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
+          echo "Found merge commits:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "::error title=Found merge commits::Found merge commits. Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
           for COMMIT_HASH in $MERGE_COMMITS; do
-            echo "::error::Merge commit: $COMMIT_HASH"
+            echo "::warning::Merge commit: $COMMIT_HASH"
+            echo "- $COMMIT_HASH" >> $GITHUB_STEP_SUMMARY
             echo "::group::git show $COMMIT_HASH"
-            echo "Merge commit found: $COMMIT_HASH" >> $GITHUB_STEP_SUMMARY
             git show $COMMIT_HASH
             echo "::endgroup::"
           done
-          echo "For guidance on resolving merge commits, please refer to the handling failure messages section of the README.md: https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance." >> $GITHUB_STEP_SUMMARY
           exit 1
         else
           echo "Success: No merge commits found"
