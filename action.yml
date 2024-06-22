@@ -12,9 +12,12 @@ runs:
       run: |
         set -Eeuo pipefail
 
-        if [ -n "$(git log --merges origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)" ]; then
+        MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
+        if [ -n "$MERGE_COMMITS" ]; then
           echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
-          git log --merges origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --
+          for COMMIT_HASH in $MERGE_COMMITS; do
+            echo "::error::Merge commit found: $COMMIT_HASH"
+          done
           exit 1
         else
           echo "Success: No merge commits found"
