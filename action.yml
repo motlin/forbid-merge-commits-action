@@ -14,10 +14,10 @@ runs:
 
         MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
         if [ -n "$MERGE_COMMITS" ]; then
-          echo "Failure: Found merge commits. Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
+          echo "::error title=Found merge commits::Please refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
           for COMMIT_HASH in $MERGE_COMMITS; do
-            echo "::group::Merge commit $COMMIT_HASH"
-            echo "::error::Merge commit found: $COMMIT_HASH"
+            echo "::error::Merge commit: $COMMIT_HASH"
+            echo "::group::git show $COMMIT_HASH"
             git show $COMMIT_HASH
             echo "::endgroup::"
           done
