@@ -6,7 +6,7 @@ This action enforces clean git history that looks like this:
 
 It fails on Pull Requests that include merge commits.
 
-This rule is designed to prevent developers from merging the default branch _into_ their branch as a way of making it up-to-date. This creates [foxtrot commits](https://blog.developer.atlassian.com/stop-foxtrots-now/) and confusing git log graphs.
+This rule is designed to prevent developers from merging the default branch _into_ their branch as a way of making it up-to-date. This creates [foxtrot commits](https://www.atlassian.com/blog/it-teams/stop-foxtrots-now) and confusing git log graphs.
 
 This rule is also designed to prevent using GitHub's "Update Branch" button, which merges the base branch _into_ the source branch. Instead, use the pull-down "Rebase Branch" button which rebases the source branch _onto_ the base branch. This is a common problem if "Always suggest updating pull request branches" is enabled, because "Update Branch" is the default choice in the pull-down and [it cannot be disabled or changed](https://github.com/orgs/community/discussions/12032).
 
