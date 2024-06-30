@@ -28,7 +28,7 @@ runs:
         echo "::warning::This action is intended to be used in pull_request events only. See: https://github.com/motlin/forbid-merge-commits-action#how-to-add-this-action-to-your-repository."
         echo "## This action is intended to be used in pull_request events only." >> $GITHUB_STEP_SUMMARY
         echo "See: [How to add this action to your repository](https://github.com/motlin/forbid-merge-commits-action#how-to-add-this-action-to-your-repository)." >> $GITHUB_STEP_SUMMARY
-        exit 0
+        exit 1
 
     - name: Checkout code
       uses: actions/checkout@v3
