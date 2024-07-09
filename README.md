@@ -1,6 +1,6 @@
 # "Forbid merge commits" GitHub Action
 
-This action enforces clean git history that looks like this:
+This action enforces clean semi-linear git history that looks like this:
 
 <img width="141" src="https://github.com/motlin/forbid-merge-commits-action/assets/244258/6b1bbe24-e6bd-43c4-8f1a-3d8e3691435f">
 
