@@ -1,7 +1,7 @@
 on: pull_request
 
 jobs:
-  check-merge-commits:
+  forbid-merge-commits:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
