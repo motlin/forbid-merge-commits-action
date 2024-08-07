@@ -6,9 +6,9 @@ This action enforces clean semi-linear git history that looks like this:
 
 It fails on Pull Requests that include merge commits.
 
-This rule is designed to prevent developers from merging the default branch _into_ their branch as a way of making it up-to-date. This creates [foxtrot commits](https://www.atlassian.com/blog/it-teams/stop-foxtrots-now) and confusing git log graphs.
+This rule is designed to prevent developers from merging the base branch _into_ their branch as a way of making it up-to-date. This creates [foxtrot commits](https://www.atlassian.com/blog/it-teams/stop-foxtrots-now) and confusing git log graphs.
 
-This rule is also designed to prevent using GitHub's "Update Branch" button, which merges the base branch _into_ the source branch. Instead, use the pull-down "Rebase Branch" button which rebases the source branch _onto_ the base branch. This is a common problem if "Always suggest updating pull request branches" is enabled, because "Update Branch" is the default choice in the pull-down and [it cannot be disabled or changed](https://github.com/orgs/community/discussions/12032).
+This rule is also designed to prevent using GitHub's "Update Branch" button, which merges the base branch _into_ the source branch. Instead, use the pull-down "Rebase Branch" button. This rebases the source branch _onto_ the base branch. This is a common problem if "Always suggest updating pull request branches" is enabled, because "Update Branch" is the default choice in the pull-down and [it cannot be disabled or changed](https://github.com/orgs/community/discussions/12032).
 
 ## Handling failure messages
 
@@ -27,15 +27,15 @@ git push --force-with-lease origin <branch_name>
 
 The `<upstream-remote>` is usually named `upstream` or `origin`. The `<base-branch>` is usually named `main` or `master`.
 
-## When this Action is not applicable
+## When this action may not be applicable
 
 Sometimes including merge commits in Pull Requests is acceptable. For example, when maintaining a library it is common to fix problems on stable branches and merge the fixes into the default branch. In such cases, you may want to configure this action to run only on some branches, or remove it entirely.
 
 ## How to add this action to your repository
 
-This action is designed trigger only `on: pull_request` events. To add this action to your repository, you can add it to an existing workflow file that triggers only on Pull Requests, or create a new workflow file. 
+This action is designed to trigger only `on: pull_request` events. To add this action to your repository, you can add it to an existing workflow file that triggers only on Pull Requests, or create a new workflow file. 
 
-To add this action to your repository, you need to create a new workflow file in the `.github/workflows/` directory of your repository.
+To add this action to your repository, you need to create a new workflow file in the `.github/workflows/` directory.
 
 Here is an example `.github/workflows/pull-request.yml` workflow.
 
