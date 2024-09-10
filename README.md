@@ -10,6 +10,19 @@ This rule is designed to prevent developers from merging the base branch _into_ 
 
 This rule is also designed to prevent using GitHub's "Update Branch" button, which merges the base branch _into_ the source branch. Instead, use the pull-down "Rebase Branch" button. This rebases the source branch _onto_ the base branch. This is a common problem if "Always suggest updating pull request branches" is enabled, because "Update Branch" is the default choice in the pull-down and [it cannot be disabled or changed](https://github.com/orgs/community/discussions/12032).
 
+## Failure messages
+
+When this action fails, it leaves instructions pointing [here to this README.md](https://github.com/motlin/forbid-merge-commits-action/tree/main?tab=readme-ov-file#handling-failure-messages) on how to handle the failures.
+
+Example failure message [in check logs](https://github.com/motlin/forbid-merge-commits-action/actions/runs/10797911339/job/29950215274):
+
+![image](https://github.com/user-attachments/assets/e98738b0-7c94-4161-a342-9b003909c40c)
+
+Example failure message [in checks summary](https://github.com/motlin/forbid-merge-commits-action/actions/runs/10797911339/attempts/1#summary-29950215274):
+
+<img width="1132" alt="image" src="https://github.com/user-attachments/assets/3d0f825b-2116-4089-a0bc-7ac00ae6e5de">
+
+
 ## Handling failure messages
 
 If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. To resolve this, you will need to rebase your branch onto the base branch.
