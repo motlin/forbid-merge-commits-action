@@ -61,6 +61,9 @@ jobs:
     steps:
       - name: Run Forbid Merge Commits Action
         uses: motlin/forbid-merge-commits-action@main
+        with:
+          # Defaults to 'true', set to 'false' for warning-only mode
+          fail-on-merge-commits: 'true'
 ```
 
 ## Recommended settings

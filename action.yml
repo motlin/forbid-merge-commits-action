@@ -18,6 +18,12 @@ branding:
   icon: 'git-merge'
   color: 'purple'
 
+inputs:
+  fail-on-merge-commits:
+    description: 'Whether to fail the check when merge commits are found, or just warn'
+    required: false
+    default: 'true'
+
 runs:
   using: "composite"
   steps:
@@ -37,13 +43,15 @@ runs:
 
     - name: Check for merge commits
       shell: bash
+      env:
+        FAIL_ON_MERGE_COMMITS: ${{ inputs.fail-on-merge-commits }}
       run: |
         set -Eeuo pipefail
 
         MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
         if [ -n "$MERGE_COMMITS" ]; then
-
-          echo '::error title=Found merge commits::Found merge commits. Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance.'
+          ANNOTATION_LEVEL=$([ "$FAIL_ON_MERGE_COMMITS" = "true" ] && echo "error" || echo "warning")
+          echo "::$ANNOTATION_LEVEL title=Found merge commits::Found merge commits. Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
 
           echo -e '## Found merge commits.\n\nRefer to [handling failure messages](https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages) for guidance.\n' >> $GITHUB_STEP_SUMMARY
 
@@ -59,7 +67,9 @@ runs:
             echo '```'                                    >> $GITHUB_STEP_SUMMARY
           done
 
-          exit 1
+          if [ "$FAIL_ON_MERGE_COMMITS" = "true" ]; then
+            exit 1
+          fi
         else
           echo 'Success: No merge commits found'
         fi
