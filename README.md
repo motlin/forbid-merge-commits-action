@@ -71,7 +71,7 @@ This action is designed to be used with the settings "Allow merge commits" and "
 
 <img width="808" src="https://github.com/motlin/forbid-merge-commits-action/assets/244258/138ab7c1-6c14-4b1b-8bc4-a61fc3f6cfb6">
 
-This action **does not** enforce that your PR branch is up-to-date with the base branch. To ensure Pull Requests are up-to-date with the base branch before merging, enable GitHub's "Require branches to be up to date before merging" option in your branch protection rules.
+This action **does not** enforce that your PR branch is up-to-date with the base branch. To ensure Pull Requests are up-to-date with the base branch before merging, enable GitHub's "Require branches to be up to date before merging" option in your branch protection rules or ruleset.
 
 <img width="797" alt="require-branches-up-to-date" src="https://github.com/user-attachments/assets/5cfc4c72-7f5d-4f9e-b93f-704762b957c6" />
 
