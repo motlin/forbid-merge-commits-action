@@ -22,7 +22,6 @@ Example failure message [in checks summary](https://github.com/motlin/forbid-mer
 
 <img width="1132" alt="image" src="https://github.com/user-attachments/assets/3d0f825b-2116-4089-a0bc-7ac00ae6e5de">
 
-
 ## Handling failure messages
 
 If this action fails due to the presence of merge commits, it will print out the offending commits and fail the workflow. To resolve this, you will need to rebase your branch onto the base branch.
@@ -72,11 +71,19 @@ This action is designed to be used with the settings "Allow merge commits" and "
 
 <img width="808" src="https://github.com/motlin/forbid-merge-commits-action/assets/244258/138ab7c1-6c14-4b1b-8bc4-a61fc3f6cfb6">
 
+This action **does not** enforce that your PR branch is up-to-date with the base branch. To ensure Pull Requests are up-to-date with the base branch before merging, enable GitHub's "Require branches to be up to date before merging" option in your branch protection rules.
+
+<img width="797" alt="require-branches-up-to-date" src="https://github.com/user-attachments/assets/5cfc4c72-7f5d-4f9e-b93f-704762b957c6" />
+
 ## How is this different from the "Require Linear History" status check?
 
 "Require linear history" does not allow merges at all. It is used with "Squash and Merge" or "Rebase and Merge" and creates a completely linear history.
 
 This workflow is meant to be used with the "Merge" button on Pull Requests. These merge commits let us see who clicked the merge button, and which commits were grouped together into a single Pull Request with multiple commits.
+
+## GitHub Merge Queue Compatibility
+
+GitHub's merge queue does not automatically rebase queued PRs on top of each other before merging. While this action prevents merge commits within individual PRs, the merge queue may still produce a non-linear history when multiple PRs are merged in succession.
 
 ## Prior art
 
