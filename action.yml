@@ -23,6 +23,10 @@ inputs:
     description: 'Whether to fail the check when merge commits are found, or just warn'
     required: false
     default: 'true'
+  fail-notice:
+    description: 'Message to display when merge commits are found'
+    required: false
+    default: 'Refer to [handling failure messages](https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages) for guidance.'
 
 runs:
   using: "composite"
@@ -45,15 +49,22 @@ runs:
       shell: bash
       env:
         FAIL_ON_MERGE_COMMITS: ${{ inputs.fail-on-merge-commits }}
+        FAIL_NOTICE: ${{ inputs.fail-notice }}
       run: |
         set -Eeuo pipefail
+
+        # Transform [text](url) -> url
+        unwrap_markdown_urls() {
+          echo "$1" | sed -E 's/\[([^\]]+)\]\(([^)]+)\)/\2/g'
+        }
 
         MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
         if [ -n "$MERGE_COMMITS" ]; then
           ANNOTATION_LEVEL=$([ "$FAIL_ON_MERGE_COMMITS" = "true" ] && echo "error" || echo "warning")
-          echo "::$ANNOTATION_LEVEL title=Found merge commits::Found merge commits. Refer to https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages for guidance."
+          CONSOLE_FAIL_NOTICE=$(unwrap_markdown_urls "$FAIL_NOTICE")
+          echo "::$ANNOTATION_LEVEL title=Found merge commits::Found merge commits. ${CONSOLE_FAIL_NOTICE}"
 
-          echo -e '## Found merge commits.\n\nRefer to [handling failure messages](https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages) for guidance.\n' >> $GITHUB_STEP_SUMMARY
+          echo -e '## Found merge commits.\n\n${FAIL_NOTICE}\n' >> $GITHUB_STEP_SUMMARY
 
           for COMMIT_HASH in $MERGE_COMMITS; do
             echo "::warning::Merge commit: $COMMIT_HASH"

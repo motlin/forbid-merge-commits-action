@@ -63,6 +63,8 @@ jobs:
         with:
           # Defaults to 'true', set to 'false' for warning-only mode
           fail-on-merge-commits: 'true'
+          # Defaults to 'Refer to [handling failure messages](...) for guidance.'
+          fail-notice: 'Your custom failure message here'
 ```
 
 ## Recommended settings
