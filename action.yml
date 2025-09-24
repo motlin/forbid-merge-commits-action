@@ -27,6 +27,9 @@ inputs:
     description: 'Message to display when merge commits are found'
     required: false
     default: 'Refer to [handling failure messages](https://github.com/motlin/forbid-merge-commits-action#handling-failure-messages) for guidance.'
+  forbidden-source-branches:
+    description: 'Comma-separated list of branches that are forbidden from being merged into the PR branch. If not specified, all merge commits are forbidden.'
+    required: false
 
 runs:
   using: "composite"
