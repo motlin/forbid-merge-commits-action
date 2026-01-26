@@ -58,7 +58,7 @@ runs:
           echo "$1" | sed -E 's/\[([^\]]+)\]\(([^)]+)\)/\2/g'
         }
 
-        MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..refs/remotes/pull/${{github.event.pull_request.number}}/merge^2 --)
+        MERGE_COMMITS=$(git log --merges --format=%H origin/${{github.base_ref}}..${{github.event.pull_request.head.sha}} --)
         if [ -n "$MERGE_COMMITS" ]; then
           ANNOTATION_LEVEL=$([ "$FAIL_ON_MERGE_COMMITS" = "true" ] && echo "error" || echo "warning")
           CONSOLE_FAIL_NOTICE=$(unwrap_markdown_urls "$FAIL_NOTICE")
