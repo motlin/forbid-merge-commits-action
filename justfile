@@ -4,7 +4,7 @@ default:
 
 # Run local tests
 test:
-    act pull_request -j forbid-merge-commits
+    act pull_request -j forbid-merge-commits -e test/event-pull-request.json
 
 # Lint the action.yml file
 lint-action:
