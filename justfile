@@ -48,3 +48,25 @@ lint: lint-action lint-workflows
 
 # Run everything
 precommit: test lint
+
+# Cut a release: tag VERSION, move the floating major tag, push both, and create the GitHub release
+release version: precommit
+    #!/usr/bin/env bash
+    set -euo pipefail
+    version='{{version}}'
+    tag="v${version#v}"
+    major="${tag%%.*}"
+    git fetch --quiet origin
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "Working tree is not clean; commit or stash first." >&2
+        exit 1
+    fi
+    if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+        echo "HEAD is not at origin/main; push or rebase first." >&2
+        exit 1
+    fi
+    git tag "$tag"
+    git tag --force "$major"
+    git push origin "$tag"
+    git push --force origin "$major"
+    gh release create "$tag" --title "$tag" --generate-notes --latest
