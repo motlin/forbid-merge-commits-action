@@ -50,10 +50,11 @@ lint: lint-action lint-workflows
 precommit: test lint
 
 # Cut a release: tag VERSION, move the floating major tag, push both, and create the GitHub release
+[arg("version", long="version", help="Release version")]
 release version: precommit
     #!/usr/bin/env bash
     set -euo pipefail
-    version='{{version}}'
+    version='{{ version }}'
     tag="v${version#v}"
     major="${tag%%.*}"
     git fetch --quiet origin
