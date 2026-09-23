@@ -53,7 +53,7 @@ precommit: test lint
 release version: precommit
     #!/usr/bin/env bash
     set -euo pipefail
-    version='{{version}}'
+    version='{{ version }}'
     tag="v${version#v}"
     major="${tag%%.*}"
     git fetch --quiet origin
@@ -70,3 +70,7 @@ release version: precommit
     git push origin "$tag"
     git push --force origin "$major"
     gh release create "$tag" --title "$tag" --generate-notes --latest
+
+# pre-commit run just-fmt --all-files
+format:
+    pre-commit run just-fmt --all-files
