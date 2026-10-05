@@ -90,3 +90,5 @@ GitHub's merge queue does not automatically rebase queued PRs on top of each oth
 ## Prior art
 
 This action is similar to [cyberark/enforce-rebase](https://github.com/cyberark/enforce-rebase), which runs using a deprecated version of Node. This action is implemented as a Composite Action using yaml, which is easier to keep up-to-date.
+
+Example content for an example merge that will fail the GitHub action.
